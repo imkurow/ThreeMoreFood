@@ -43,4 +43,10 @@ dependencies {
     // Firebase Authentication
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.firebase:firebase-database:20.3.0")   
+
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:20.7.0")  
+    
+    // Material Design
+    implementation("com.google.android.material:material:1.11.0")
 }
