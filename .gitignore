@@ -14,3 +14,7 @@
 .cxx
 local.properties
 .vscode
+/.idea/
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
