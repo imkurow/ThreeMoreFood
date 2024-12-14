@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         initViews();
-        setupClickListeners();g
+        setupClickListeners();
     }
 
     private void initViews() {
@@ -67,12 +67,36 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (validateInput(fullname, email, phone, address, password, gender)) {
             showLoading(true);
-            // Simulasi delay register
-            new Handler().postDelayed(() -> {
-                showLoading(false);
-                // Untuk sementara langsung ke MainActivity
-                navigateToMain();
-            }, 1500);
+
+            // Register dengan Firebase
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            // Simpan data user ke database
+                            String userId = mAuth.getCurrentUser().getUid();
+                            UserData userData = new UserData(fullname, email, phone, address, gender);
+
+                            mDatabase.child("users").child(userId).setValue(userData)
+                                    .addOnCompleteListener(dbTask -> {
+                                        showLoading(false);
+                                        if (dbTask.isSuccessful()) {
+                                            Toast.makeText(RegisterActivity.this,
+                                                    "Registrasi berhasil",
+                                                    Toast.LENGTH_SHORT).show();
+                                            navigateToMain();
+                                        } else {
+                                            Toast.makeText(RegisterActivity.this,
+                                                    "Gagal menyimpan data",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        } else {
+                            showLoading(false);
+                            Toast.makeText(RegisterActivity.this,
+                                    "Registrasi gagal: " + task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 
