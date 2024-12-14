@@ -37,5 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
     }
 
+    private void setupClickListeners() {
+        buttonRegister.setOnClickListener(v -> handleRegister());
+        textViewLogin.setOnClickListener(v -> navigateToLogin());
+    }
+
 }
 
