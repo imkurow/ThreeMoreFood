@@ -61,6 +61,18 @@ public class RegisterActivity extends AppCompatActivity {
             }, 1500);
         }
     }
+
+    private String getSelectedGender() {
+        int selectedId = radioGroupGender.getCheckedRadioButtonId();
+        if (selectedId == R.id.radioButtonMale) {
+            return "Laki-laki";
+        } else if (selectedId == R.id.radioButtonFemale) {
+            return "Perempuan";
+        }
+        return "";
+    }
+
+    
     
 
 }
