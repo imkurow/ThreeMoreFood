@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -70,6 +71,49 @@ public class RegisterActivity extends AppCompatActivity {
             return "Perempuan";
         }
         return "";
+    }
+
+    private boolean validateInput(String fullname, String email, String phone, 
+                                String address, String password, String gender) {
+        boolean isValid = true;
+
+        if (fullname.isEmpty()) {
+            editTextFullname.setError("Nama lengkap tidak boleh kosong");
+            isValid = false;
+        }
+
+        if (email.isEmpty()) {
+            editTextEmail.setError("Email tidak boleh kosong");
+            isValid = false;
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Format email tidak valid");
+            isValid = false;
+        }
+
+        if (phone.isEmpty()) {
+            editTextPhone.setError("Nomor telepon tidak boleh kosong");
+            isValid = false;
+        }
+
+        if (address.isEmpty()) {
+            editTextAddress.setError("Alamat tidak boleh kosong");
+            isValid = false;
+        }
+
+        if (password.isEmpty()) {
+            editTextPassword.setError("Password tidak boleh kosong");
+            isValid = false;
+        } else if (password.length() < 6) {
+            editTextPassword.setError("Password minimal 6 karakter");
+            isValid = false;
+        }
+
+        if (gender.isEmpty()) {
+            Toast.makeText(this, "Pilih jenis kelamin", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     
