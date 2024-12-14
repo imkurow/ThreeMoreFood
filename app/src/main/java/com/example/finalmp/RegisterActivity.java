@@ -2,8 +2,10 @@ package com.example.finalmp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -114,6 +116,26 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return isValid;
+    }
+
+    private void showLoading(boolean isLoading) {
+        progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        buttonRegister.setEnabled(!isLoading);
+        textViewLogin.setEnabled(!isLoading);
+        editTextFullname.setEnabled(!isLoading);
+        editTextEmail.setEnabled(!isLoading);
+        editTextPhone.setEnabled(!isLoading);
+        editTextAddress.setEnabled(!isLoading);
+        editTextPassword.setEnabled(!isLoading);
+    }
+
+    private void navigateToLogin() {
+        finish();
+    }
+
+    private void navigateToMain() {
+        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+        finishAffinity();
     }
 
     
