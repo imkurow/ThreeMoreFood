@@ -2,7 +2,10 @@ package com.example.finalmp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -38,10 +41,14 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        try {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting persistence", e);
+        }
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Log.d(TAG, "Database Reference: " + mDatabase.toString());
-
         initViews();
         setupClickListeners();
     }
@@ -88,8 +95,22 @@ public class RegisterActivity extends AppCompatActivity {
         String password = editTextPassword.getText().toString().trim();
         String gender = getSelectedGender();
 
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (validateInput(fullname, email, phone, address, password, gender)) {
             showLoading(true);
+
+            new Handler().postDelayed(() -> {
+                if (progressBar.getVisibility() == View.VISIBLE) {
+                    showLoading(false);
+                    Toast.makeText(RegisterActivity.this,
+                            "Koneksi timeout, silakan coba lagi",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }, 15000);
 
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
@@ -180,12 +201,12 @@ public class RegisterActivity extends AppCompatActivity {
     private void showLoading(boolean isLoading) {
         progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         buttonRegister.setEnabled(!isLoading);
-        textViewLogin.setEnabled(!isLoading);
         editTextFullname.setEnabled(!isLoading);
         editTextEmail.setEnabled(!isLoading);
         editTextPhone.setEnabled(!isLoading);
         editTextAddress.setEnabled(!isLoading);
         editTextPassword.setEnabled(!isLoading);
+        radioGroupGender.setEnabled(!isLoading);
     }
 
     private void navigateToLogin() {
@@ -197,7 +218,13 @@ public class RegisterActivity extends AppCompatActivity {
         finishAffinity();
     }
 
-    
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
     
 
 }
