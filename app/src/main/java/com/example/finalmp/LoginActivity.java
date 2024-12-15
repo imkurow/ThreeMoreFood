@@ -68,8 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToRegister() {
-        // Akan diimplementasikan nanti
-        Toast.makeText(this, "Menuju halaman Register", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
     }
 
     private void navigateToMain() {
