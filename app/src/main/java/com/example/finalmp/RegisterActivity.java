@@ -1,5 +1,6 @@
 package com.example.finalmp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
@@ -41,32 +43,66 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        try {
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        } catch (Exception e) {
-            Log.e(TAG, "Error setting persistence", e);
+        // Cek koneksi internet saat activity dibuat
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
         }
 
+        // Inisialisasi Firebase
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         initViews();
         setupClickListeners();
+    }
+
+
+    private void checkDatabaseConnection() {
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = Boolean.TRUE.equals(snapshot.getValue(Boolean.class));
+                if (connected) {
+                    Log.d(TAG, "Terhubung ke database");
+                    Toast.makeText(RegisterActivity.this,
+                            "Terhubung ke database",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e(TAG, "Tidak dapat terhubung ke database");
+                    Toast.makeText(RegisterActivity.this,
+                            "Tidak dapat terhubung ke database",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Listener cancelled", error.toException());
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
         // Cek koneksi database
-        mDatabase.child(".info/connected").addValueEventListener(new ValueEventListener() {
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                boolean connected = snapshot.getValue(Boolean.class);
-                Log.d(TAG, "Database connected: " + connected);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = Boolean.TRUE.equals(snapshot.getValue(Boolean.class));
+                if (!connected) {
+                    Toast.makeText(RegisterActivity.this,
+                            "Tidak dapat terhubung ke database",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                Log.e(TAG, "Database error: " + error.getMessage());
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Listener cancelled", error.toException());
             }
         });
     }
@@ -87,6 +123,16 @@ public class RegisterActivity extends AppCompatActivity {
         textViewLogin.setOnClickListener(v -> navigateToLogin());
     }
 
+    private String getSelectedGender() {
+        int selectedId = radioGroupGender.getCheckedRadioButtonId();
+        if (selectedId == R.id.radioButtonMale) {
+            return "Laki-laki";
+        } else if (selectedId == R.id.radioButtonFemale) {
+            return "Perempuan";
+        }
+        return "";
+    }
+
     private void handleRegister() {
         String fullname = editTextFullname.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
@@ -103,59 +149,51 @@ public class RegisterActivity extends AppCompatActivity {
         if (validateInput(fullname, email, phone, address, password, gender)) {
             showLoading(true);
 
-            new Handler().postDelayed(() -> {
-                if (progressBar.getVisibility() == View.VISIBLE) {
-                    showLoading(false);
-                    Toast.makeText(RegisterActivity.this,
-                            "Koneksi timeout, silakan coba lagi",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }, 15000);
-
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            String userId = mAuth.getCurrentUser().getUid();
-                            UserData userData = new UserData(fullname, email, phone, address, gender);
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                String userId = user.getUid();
+                                UserData userData = new UserData(fullname, email, phone, address, gender);
 
-                            mDatabase.child("users").child(userId).setValue(userData)
-                                    .addOnCompleteListener(dbTask -> {
-                                        showLoading(false);
-                                        if (dbTask.isSuccessful()) {
+                                mDatabase.child("users").child(userId).setValue(userData)
+                                        .addOnSuccessListener(aVoid -> {
+                                            showLoading(false);
                                             Toast.makeText(RegisterActivity.this,
-                                                    "Registrasi berhasil",
+                                                    "Registrasi berhasil! Silakan login",
                                                     Toast.LENGTH_SHORT).show();
-                                            Log.d(TAG, "Data tersimpan untuk user: " + userId);
-                                            navigateToMain();
-                                        } else {
+
+                                            // Sign out dulu agar user harus login ulang
+                                            mAuth.signOut();
+
+                                            // Kirim data email dan password ke LoginActivity
+                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                            intent.putExtra("email", email);
+                                            intent.putExtra("password", password);
+                                            startActivity(intent);
+                                            finish(); // Tutup RegisterActivity
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            showLoading(false);
                                             Toast.makeText(RegisterActivity.this,
-                                                    "Gagal menyimpan data: " + dbTask.getException().getMessage(),
+                                                    "Gagal menyimpan data: " + e.getMessage(),
                                                     Toast.LENGTH_SHORT).show();
-                                            Log.e(TAG, "Error: " + dbTask.getException().getMessage());
-                                        }
-                                    });
+                                        });
+                            }
                         } else {
                             showLoading(false);
+                            String errorMessage = task.getException() != null ?
+                                    task.getException().getMessage() : "Registrasi gagal";
                             Toast.makeText(RegisterActivity.this,
-                                    "Registrasi gagal: " + task.getException().getMessage(),
+                                    "Registrasi gagal: " + errorMessage,
                                     Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "Registrasi gagal: " + task.getException().getMessage());
                         }
                     });
         }
     }
 
-    private String getSelectedGender() {
-        int selectedId = radioGroupGender.getCheckedRadioButtonId();
-        if (selectedId == R.id.radioButtonMale) {
-            return "Laki-laki";
-        } else if (selectedId == R.id.radioButtonFemale) {
-            return "Perempuan";
-        }
-        return "";
-    }
-
-    private boolean validateInput(String fullname, String email, String phone, 
+    private boolean validateInput(String fullname, String email, String phone,
                                 String address, String password, String gender) {
         boolean isValid = true;
 
@@ -220,8 +258,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if (connectivityManager != null) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return false;
     }
 
 
