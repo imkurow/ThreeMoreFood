@@ -6,9 +6,10 @@ public class CartItem {
     private String cartId;
     private String userId;
     private long timestamp;
-    private String orderStatus; // "pending", "confirmed", "processing", "delivered"
+    private String orderStatus;
     private String deliveryAddress;
 
+    // Constructor
     public CartItem() {}
 
     public CartItem(Menu menu, int quantity) {
@@ -18,24 +19,47 @@ public class CartItem {
         this.orderStatus = "pending";
     }
 
-    public String getOrderStatus() {
-        return orderStatus;
+    // Getter dan Setter yang hilang
+    public Menu getMenu() { return menu; }
+    public void setMenu(Menu menu) { this.menu = menu; }
+
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) {
+        this.quantity = Math.max(1, quantity);
     }
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
+    public String getCartId() { return cartId; }
+    public void setCartId(String cartId) { this.cartId = cartId; }
 
-    public String getDeliveryAddress() {
-        return deliveryAddress;
-    }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 
+    public long getTimestamp() { return timestamp; }
+    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+
+    public String getOrderStatus() { return orderStatus; }
+    public void setOrderStatus(String orderStatus) { this.orderStatus = orderStatus; }
+
+    public String getDeliveryAddress() { return deliveryAddress; }
     public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
     }
 
-    // Method untuk validasi quantity
-    public void setQuantity(int quantity) {
-        this.quantity = Math.max(1, quantity); // Minimal 1
+    // Method untuk kalkulasi total
+    public double getTotalPrice() {
+        return menu != null ? menu.getPrice() * quantity : 0;
+    }
+
+    // Method untuk update quantity
+    public void incrementQuantity() {
+        this.quantity++;
+    }
+
+    public boolean decrementQuantity() {
+        if (this.quantity > 1) {
+            this.quantity--;
+            return true;
+        }
+        return false;
     }
 }
