@@ -78,7 +78,7 @@ public class DetailMenuActivity extends AppCompatActivity {
         userRatingBar = findViewById(R.id.userRatingBar);
         reviewEditText = findViewById(R.id.reviewEditText);
         reviewsRecyclerView = findViewById(R.id.reviewsRecyclerView);
-        
+
         menuRef = FirebaseDatabase.getInstance().getReference().child("menus");
 
         buttonAddToCart.setOnClickListener(v -> addToCart());
@@ -154,5 +154,16 @@ public class DetailMenuActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toggleFavorite() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference favRef = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("favorites")
+                .child(userId)
+                .child(menuId);
+
+        // Toggle favorite status
     }
 }
