@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.nav_profile) {
 //                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             } else if (id == R.id.nav_cart) {
-//                startActivity(new Intent(MainActivity.this, CartActivity.class));
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
             } else if (id == R.id.nav_orders) {
                 // Handle orders
             } else if (id == R.id.nav_logout) {
