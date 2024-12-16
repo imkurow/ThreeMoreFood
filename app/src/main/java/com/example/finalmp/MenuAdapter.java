@@ -11,9 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 import java.util.Locale;
-import com.bumptech.glide.Glide;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
     private List<Menu> menuList;
@@ -42,7 +43,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     }
 
     public void updateData(List<Menu> newMenuList) {
-        menuList = newMenuList;
+        this.menuList = newMenuList;
         notifyDataSetChanged();
     }
 
