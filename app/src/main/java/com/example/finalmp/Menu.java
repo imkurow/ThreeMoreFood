@@ -1,6 +1,11 @@
 package com.example.finalmp;
 
-public class Menu {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Menu implements Parcelable {
     private String id;
     private String name;
     private String description;
@@ -11,7 +16,8 @@ public class Menu {
     private int orderCount;
 
 
-    public Menu(){}
+    public Menu() {
+    }
 
 
     public Menu(String id, String name, String description, String category,
@@ -26,27 +32,107 @@ public class Menu {
         this.orderCount = 0;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    protected Menu(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        description = in.readString();
+        category = in.readString();
+        price = in.readDouble();
+        imageUrl = in.readString();
+        rating = in.readFloat();
+        orderCount = in.readInt();
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public static final Creator<Menu> CREATOR = new Creator<Menu>() {
+        @Override
+        public Menu createFromParcel(Parcel in) {
+            return new Menu(in);
+        }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+        @Override
+        public Menu[] newArray(int size) {
+            return new Menu[size];
+        }
+    };
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public String getId() {
+        return id;
+    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getName() {
+        return name;
+    }
 
-    public float getRating() { return rating; }
-    public void setRating(float rating) { this.rating = rating; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int getOrderCount() { return orderCount; }
-    public void setOrderCount(int orderCount) { this.orderCount = orderCount; }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int getOrderCount() {
+        return orderCount;
+    }
+
+    public void setOrderCount(int orderCount) {
+        this.orderCount = orderCount;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(category);
+        dest.writeDouble(price);
+        dest.writeString(imageUrl);
+        dest.writeFloat(rating);
+        dest.writeInt(orderCount);
+    }
 }
