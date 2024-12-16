@@ -1,5 +1,6 @@
 package com.example.finalmp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -123,7 +125,16 @@ public class DetailMenuActivity extends AppCompatActivity {
     private void addToCart() {
         if (currentMenu == null) return;
 
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Cek apakah user sudah login
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "Silakan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+            // Optional: redirect ke halaman login
+             startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
+
+        String userId = currentUser.getUid();
         DatabaseReference cartRef = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("carts")
@@ -142,7 +153,6 @@ public class DetailMenuActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 });
     }
-
     private void showLoading(boolean show) {
         progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
@@ -157,7 +167,14 @@ public class DetailMenuActivity extends AppCompatActivity {
     }
 
     private void toggleFavorite() {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Cek apakah user sudah login
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "Silakan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = currentUser.getUid();
         DatabaseReference favRef = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("favorites")
@@ -165,5 +182,36 @@ public class DetailMenuActivity extends AppCompatActivity {
                 .child(menuId);
 
         // Toggle favorite status
+        favRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Jika sudah favorite, hapus dari favorite
+                    favRef.removeValue()
+                            .addOnSuccessListener(aVoid -> {
+                                buttonFavorite.setSelected(false);
+                                Toast.makeText(DetailMenuActivity.this,
+                                        "Dihapus dari favorit",
+                                        Toast.LENGTH_SHORT).show();
+                            });
+                } else {
+                    // Jika belum favorite, tambahkan ke favorite
+                    favRef.setValue(true)
+                            .addOnSuccessListener(aVoid -> {
+                                buttonFavorite.setSelected(true);
+                                Toast.makeText(DetailMenuActivity.this,
+                                        "Ditambahkan ke favorit",
+                                        Toast.LENGTH_SHORT).show();
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DetailMenuActivity.this,
+                        "Error: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
