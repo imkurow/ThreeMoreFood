@@ -9,7 +9,6 @@ public class CartItem {
     private String orderStatus; // "pending", "confirmed", "processing", "delivered"
     private String deliveryAddress;
 
-    // Constructor yang ada tetap dipertahankan
     public CartItem() {}
 
     public CartItem(Menu menu, int quantity) {
@@ -19,7 +18,6 @@ public class CartItem {
         this.orderStatus = "pending";
     }
 
-    // Tambahan getter/setter
     public String getOrderStatus() {
         return orderStatus;
     }
