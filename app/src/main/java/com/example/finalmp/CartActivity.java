@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
@@ -124,12 +125,29 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
 
     private void processCheckout() {
         if (cartItems.isEmpty()) {
-            Toast.makeText(this, "Keranjang kosong",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Keranjang kosong", Toast.LENGTH_SHORT).show();
             return;
         }
-        // Implementasi checkout
-        // Pindah ke CheckoutActivity
+
+        ArrayList<CartItemParcelable> parcelableItems = new ArrayList<>();
+        double total = 0;
+
+        for (CartItem item : cartItems) {
+            CartItemParcelable parcelableItem = new CartItemParcelable(item);
+            parcelableItems.add(parcelableItem);
+            total += item.getTotalPrice();
+        }
+
+        Intent intent = new Intent(this, CheckoutActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("cartItems", parcelableItems);
+        bundle.putDouble("totalAmount", total);
+        intent.putExtras(bundle);
+
+        Log.d("CartActivity", "Sending " + parcelableItems.size() + " items");
+        Log.d("CartActivity", "Total amount: " + total);
+
+        startActivity(intent);
     }
 
     @Override
