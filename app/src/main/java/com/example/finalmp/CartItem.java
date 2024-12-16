@@ -1,6 +1,11 @@
 package com.example.finalmp;
 
-public class CartItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class CartItem implements Parcelable {
     private Menu menu;
     private int quantity;
     private String cartId;
@@ -18,6 +23,27 @@ public class CartItem {
         this.timestamp = System.currentTimeMillis();
         this.orderStatus = "pending";
     }
+
+    protected CartItem(Parcel in) {
+        quantity = in.readInt();
+        cartId = in.readString();
+        userId = in.readString();
+        timestamp = in.readLong();
+        orderStatus = in.readString();
+        deliveryAddress = in.readString();
+    }
+
+    public static final Creator<CartItem> CREATOR = new Creator<CartItem>() {
+        @Override
+        public CartItem createFromParcel(Parcel in) {
+            return new CartItem(in);
+        }
+
+        @Override
+        public CartItem[] newArray(int size) {
+            return new CartItem[size];
+        }
+    };
 
     // Getter dan Setter yang hilang
     public Menu getMenu() { return menu; }
@@ -61,5 +87,21 @@ public class CartItem {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable((Parcelable) menu, flags);
+        dest.writeInt(quantity);
+        dest.writeString(cartId);
+        dest.writeString(userId);
+        dest.writeLong(timestamp);
+        dest.writeString(orderStatus);
+        dest.writeString(deliveryAddress);
     }
 }
