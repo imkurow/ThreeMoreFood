@@ -1,5 +1,6 @@
 package com.example.finalmp;
 
+import com.example.finalmp.Menu;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,7 +31,15 @@ public class MenuDataInitializer {
                 "Salad segar dengan dressing caesar dan crouton",
                 "Appetizer",
                 25000,
-                "drawable/Caesar-Salad.jpeg"
+                "drawable/caesarsalad.jpeg"
+        ));
+        appetizers.add(new Menu(
+                "app3",
+                "Risoles Mayo",
+                "Risoles isi daging ayam dan mayonaise",
+                "Appetizer",
+                12000,
+                "drawable/risoles.jpeg"
         ));
 
         // Main Course
@@ -41,7 +50,7 @@ public class MenuDataInitializer {
                 "Nasi goreng dengan telur, ayam, dan sayuran",
                 "Main Course",
                 35000,
-                "drawable/nasi-goreng-special.jpg"
+                "drawable/nasigorengspecial.jpg"
         ));
         mainCourses.add(new Menu(
                 "main2",
@@ -49,7 +58,15 @@ public class MenuDataInitializer {
                 "Mie goreng dengan udang, cumi, dan sayuran",
                 "Main Course",
                 40000,
-                "drawable/mie-goreng-seafood.jpg"
+                "drawable/miegorengseafood.jpg"
+        ));
+        mainCourses.add(new Menu(
+                "main3",
+                "Ayam Bakar",
+                "Ayam bakar bumbu kecap dengan nasi dan lalapan",
+                "Main Course",
+                38000,
+                "drawable/ayambakar.jpg"
         ));
 
         // Dessert
@@ -60,7 +77,7 @@ public class MenuDataInitializer {
                 "Es krim vanilla dengan topping coklat",
                 "Dessert",
                 20000,
-                "drawable/ice-cream-vanilla.jpeg"
+                "drawable/icecreamvanilla.jpeg"
         ));
         desserts.add(new Menu(
                 "des2",
@@ -68,7 +85,15 @@ public class MenuDataInitializer {
                 "Pudding coklat dengan saus vanilla",
                 "Dessert",
                 18000,
-                "drawable/pudding-coklat.jpeg"
+                "drawable/puddingcoklat.jpeg"
+        ));
+        desserts.add(new Menu(
+                "des3",
+                "Pisang Goreng",
+                "Pisang goreng crispy dengan topping keju dan coklat",
+                "Dessert",
+                15000,
+                "drawable/pisanggoreng.jpeg"
         ));
 
         // Upload to Firebase
