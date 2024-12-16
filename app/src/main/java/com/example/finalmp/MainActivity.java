@@ -14,7 +14,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +29,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -31,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewPopular;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private CategoryAdapter categoryAdapter;
+    private MenuAdapter popularMenuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         // Inisialisasi Firebase
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        // Inisialisasi menu data
+        MenuDataInitializer initializer = new MenuDataInitializer();
+        initializer.initializeMenuData();
 
         // Setup UI
         setupToolbar();
@@ -67,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
             // Handle navigation menu items
             int id = item.getItemId();
             if (id == R.id.nav_profile) {
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+//                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             } else if (id == R.id.nav_cart) {
-                startActivity(new Intent(MainActivity.this, CartActivity.class));
+//                startActivity(new Intent(MainActivity.this, CartActivity.class));
             } else if (id == R.id.nav_orders) {
                 // Handle orders
             } else if (id == R.id.nav_logout) {
@@ -85,37 +100,65 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewCategories = findViewById(R.id.recyclerViewCategories);
         recyclerViewCategories.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        categoryAdapter = new CategoryAdapter(this);
+        recyclerViewCategories.setAdapter(categoryAdapter);
 
         // Setup Popular Menu RecyclerView
         recyclerViewPopular = findViewById(R.id.recyclerViewPopular);
-        recyclerViewPopular.setLayoutManager(
-                new GridLayoutManager(this, 2));
-    }
-
-    private void loadUserData() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            mDatabase.child("users").child(user.getUid())
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            UserData userData = snapshot.getValue(UserData.class);
-                            if (userData != null) {
-                                updateNavigationHeader(userData);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.e("MainActivity", "Error loading user data", error.toException());
-                        }
-                    });
-        }
+        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this));
+        popularMenuAdapter = new MenuAdapter(new ArrayList<>());
+        recyclerViewPopular.setAdapter(popularMenuAdapter);
     }
 
     private void loadMenuData() {
-        // Load menu categories and popular items from Firebase
-        // Implement adapters and populate RecyclerViews
+        DatabaseReference menuRef = FirebaseDatabase.getInstance().getReference().child("menus");
+        menuRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Menu> popularMenus = new ArrayList<>();
+                for (DataSnapshot menuSnapshot : snapshot.getChildren()) {
+                    Menu menu = menuSnapshot.getValue(Menu.class);
+                    if (menu != null) {
+                        popularMenus.add(menu);
+                    }
+                }
+
+                // Sort berdasarkan rating atau orderCount untuk menu populer
+                Collections.sort(popularMenus, (m1, m2) ->
+                        Float.compare(m2.getRating(), m1.getRating()));
+
+                // Ambil 5 menu teratas
+                List<Menu> topMenus = popularMenus.size() > 5 ?
+                        popularMenus.subList(0, 5) : popularMenus;
+
+                popularMenuAdapter.updateData(topMenus);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this,
+                        "Error loading menu: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void updateNavigationHeader(UserData userData) {
+        View headerView = navigationView.getHeaderView(0);
+        TextView textViewName = headerView.findViewById(R.id.textViewName);
+        TextView textViewEmail = headerView.findViewById(R.id.textViewEmail);
+        ImageView imageViewProfile = headerView.findViewById(R.id.imageViewProfile);
+
+        textViewName.setText(userData.getFullname());
+        textViewEmail.setText(userData.getEmail());
+
+        if (userData.getProfilePicUrl() != null && !userData.getProfilePicUrl().isEmpty()) {
+            Glide.with(this)
+                    .load(userData.getProfilePicUrl())
+                    .placeholder(R.drawable.default_profile)
+                    .error(R.drawable.default_profile)
+                    .circleCrop()
+                    .into(imageViewProfile);
+        }
     }
 
     private void logout() {
@@ -132,4 +175,30 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void loadUserData() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userRef = mDatabase.child("users").child(userId);
+
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    UserData userData = snapshot.getValue(UserData.class);
+                    if (userData != null) {
+                        updateNavigationHeader(userData);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(MainActivity.this,
+                            "Error loading user data: " + error.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
 }
