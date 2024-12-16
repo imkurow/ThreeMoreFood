@@ -31,7 +31,7 @@ public class MenuListActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private DatabaseReference menuRef;
     private String category;
-    private SearchView searchView;
+    private androidx.appcompat.widget.SearchView searchView;
     private List<Menu> fullMenuList;
 
     @Override
@@ -65,6 +65,7 @@ public class MenuListActivity extends AppCompatActivity {
     private void initViews() {
         recyclerViewMenu = findViewById(R.id.recyclerViewMenu);
         progressBar = findViewById(R.id.progressBar);
+        // Ubah cara casting SearchView
         searchView = findViewById(R.id.searchView);
 
         recyclerViewMenu.setLayoutManager(new LinearLayoutManager(this));
@@ -75,7 +76,7 @@ public class MenuListActivity extends AppCompatActivity {
     }
 
     private void setupSearchView() {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 filterMenu(query);
