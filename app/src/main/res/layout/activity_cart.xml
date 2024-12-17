@@ -13,11 +13,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#20FFFFFF"
-            app:title="Keranjang"
-            app:titleTextColor="@color/white"/>
+            style="@style/CustomToolbarStyle"
+            app:titleTextColor="@color/white"
+            app:title="Keranjang" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                 android:id="@+id/recyclerViewCart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -54,9 +55,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Total: Rp 0"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textAppearance="@style/CustomTextAppearance"
+                        android:textSize="18sp" />
 
                     <Button
                         android:id="@+id/buttonCheckout"
@@ -64,7 +64,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Checkout"
-                        android:background="@drawable/gradient_button"/>
+                        style="@style/CustomButtonStyle" />
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
