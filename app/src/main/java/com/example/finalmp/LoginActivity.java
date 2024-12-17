@@ -15,9 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private static final String TAG = "LoginActivity";
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +68,12 @@ public class LoginActivity extends AppCompatActivity {
                 editTextPassword.setText(password);
             }
         }
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("1078030588592-9f59mc2daeu2nf52sasvjhismqg2vgq0.apps.googleusercontent.com") // Ganti dengan Web Client ID dari Firebase Console
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void initViews() {
@@ -159,8 +175,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleGoogleSignIn() {
         showLoading(true);
-        Toast.makeText(this, "Google Sign In akan diimplementasikan", Toast.LENGTH_SHORT).show();
-        showLoading(false);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void navigateToRegister() {
@@ -212,5 +228,67 @@ public class LoginActivity extends AppCompatActivity {
                 .setPositiveButton("Ya", (dialog, which) -> finish())
                 .setNegativeButton("Tidak", null)
                 .show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                showLoading(false);
+                Toast.makeText(this, "Google sign in gagal: " + e.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+                Log.w(TAG, "Google sign in failed", e);
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            // Simpan data user ke Firebase Database
+                            UserData userData = new UserData(
+                                    user.getDisplayName(),
+                                    user.getEmail(),
+                                    "",  // phone
+                                    "",  // address
+                                    ""   // gender
+                            );
+                            if (user.getPhotoUrl() != null) {
+                                userData.setProfilePicUrl(user.getPhotoUrl().toString());
+                            }
+
+                            mDatabase.child("users").child(user.getUid())
+                                    .setValue(userData)
+                                    .addOnCompleteListener(dbTask -> {
+                                        showLoading(false);
+                                        if (dbTask.isSuccessful()) {
+                                            Toast.makeText(LoginActivity.this,
+                                                    "Selamat datang, " + userData.getFullname(),
+                                                    Toast.LENGTH_SHORT).show();
+                                            navigateToMain();
+                                        } else {
+                                            Toast.makeText(LoginActivity.this,
+                                                    "Gagal menyimpan data user",
+                                                    Toast.LENGTH_SHORT).show();
+                                            mAuth.signOut();
+                                        }
+                                    });
+                        }
+                    } else {
+                        showLoading(false);
+                        Toast.makeText(LoginActivity.this, "Authentication Failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
