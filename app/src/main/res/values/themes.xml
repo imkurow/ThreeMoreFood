@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.FinalMP" parent="Base.Theme.FinalMP" />
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="hintTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="startIconTint">@color/white</item>
+        <item name="boxBackgroundColor">#30FFFFFF</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
 </resources>
