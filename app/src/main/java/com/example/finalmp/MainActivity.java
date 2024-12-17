@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             // Handle navigation menu items
             int id = item.getItemId();
             if (id == R.id.nav_profile) {
-//                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             } else if (id == R.id.nav_cart) {
                 startActivity(new Intent(MainActivity.this, CartActivity.class));
             } else if (id == R.id.nav_orders) {
