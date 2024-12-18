@@ -24,7 +24,7 @@
 
     <!-- Custom Text Appearance -->
     <style name="CustomTextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/BYT</item>
+        <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -33,7 +33,7 @@
         <item name="android:background">@drawable/gradient_button</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/BYT</item>
+        <item name="android:fontFamily">@font/montserrat</item>
     </style>
 
     <!-- Custom Toolbar Style -->
@@ -45,10 +45,9 @@
 
     <!-- Toolbar Title Text Appearance -->
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/BYT</item> <!-- Custom font -->
-        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/montserrat</item> <!-- Custom font -->
+        <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
