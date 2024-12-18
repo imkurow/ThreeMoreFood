@@ -128,7 +128,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 user.getUid(),
                 orderItems,
                 totalAmount,
-                "pending",
+                OrderStatus.COMPLETED.name(),
                 System.currentTimeMillis(),
                 address,
                 paymentMethod

@@ -12,6 +12,10 @@ public class Order {
     private String deliveryAddress;
     private String paymentMethod;
 
+
+    public Order() {
+        // Required empty constructor for Firebase
+    }
     // Constructor dan getter/setter
 
     public Order(String orderId, String userId, List<CartItem> items, double totalAmount, String status, long orderTime, String deliveryAddress, String paymentMethod) {
@@ -87,5 +91,13 @@ public class Order {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public OrderStatus getOrderStatus() {
+        try {
+            return OrderStatus.valueOf(status);
+        } catch (IllegalArgumentException e) {
+            return OrderStatus.PENDING; // Default status
+        }
     }
 }

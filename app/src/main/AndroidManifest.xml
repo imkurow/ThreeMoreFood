@@ -29,6 +29,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".OrderHistoryActivity"
+            android:exported="false"/>
+        <activity
             android:name=".CheckoutActivity"
             android:exported="false"
             android:parentActivityName=".CartActivity" />
