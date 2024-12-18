@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Theme Styles -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -9,6 +10,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <!-- Glass TextInputLayout Style -->
     <style name="GlassTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/white</item>
         <item name="boxStrokeWidth">1dp</item>
@@ -16,6 +18,7 @@
         <item name="hintTextColor">@color/white</item>
     </style>
 
+    <!-- Search View Style -->
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/white</item>
@@ -39,17 +42,16 @@
     <!-- Custom Toolbar Style -->
     <style name="CustomToolbarStyle" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">#20FFFFFF</item>
-        <item name="android:titleTextColor">@color/white</item> <!-- White title color -->
+        <item name="android:titleTextColor">@color/white</item>
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
     </style>
 
     <!-- Toolbar Title Text Appearance -->
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/montserrat</item> <!-- Custom font -->
+        <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
-
 
     <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:fontFamily">@font/montserrat</item>
@@ -58,6 +60,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Text View Styles -->
     <style name="TextViewTitleStyle">
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">16sp</item>
@@ -72,6 +75,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Edit Text Style -->
     <style name="EditTextStyle">
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">14sp</item>
@@ -79,12 +83,14 @@
         <item name="android:textColorHint">#80FFFFFF</item>
     </style>
 
+    <!-- Radio Button Style -->
     <style name="RadioButtonStyle">
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- Button Text Style -->
     <style name="ButtonTextStyle">
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">16sp</item>
@@ -92,6 +98,19 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextViewPriceStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+
+    <style name="TextViewDescriptionStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+
+
 
 </resources>
-
