@@ -19,7 +19,7 @@
             android:background="#20FFFFFF"
             app:title="Profile"
             app:titleTextColor="@color/white"
-            />
+            android:fontFamily="@font/montserrat"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -68,7 +68,8 @@
                         android:text=""
                         android:textColor="@color/white"
                         android:textSize="24sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonChangePhoto"
@@ -81,7 +82,7 @@
                         app:strokeWidth="3dp"
                         app:cornerRadius="20dp"
                         android:background="@drawable/gradient_button"
-                        />
+                        android:fontFamily="@font/montserrat"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -114,7 +115,8 @@
                             android:id="@+id/editTextName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"/>
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/montserrat"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -132,7 +134,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
-                            android:inputType="phone"/>
+                            android:inputType="phone"
+                            android:fontFamily="@font/montserrat"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -150,7 +153,8 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:inputType="textMultiLine"
-                            android:minLines="2"/>
+                            android:minLines="2"
+                            android:fontFamily="@font/montserrat"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
@@ -161,7 +165,8 @@
                         android:text="SIMPAN"
                         android:textStyle="bold"
                         app:cornerRadius="28dp"
-                        android:background="@drawable/gradient_button"/>
+                        android:background="@drawable/gradient_button"
+                        android:fontFamily="@font/montserrat"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
