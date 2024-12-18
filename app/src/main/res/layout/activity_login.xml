@@ -51,7 +51,8 @@
                     android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/white"
-                    android:textColorHint="@color/white"/>
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/montserrat"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +73,8 @@
                     android:hint="Password"
                     android:inputType="textPassword"
                     android:textColor="@color/white"
-                    android:textColorHint="@color/white"/>
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/montserrat"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -82,7 +84,8 @@
                 android:background="@drawable/gradient_button"
                 android:text="Login"
                 android:textColor="@color/white"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +94,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="ATAU"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat"/>
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/buttonGoogleSignIn"
@@ -106,7 +110,8 @@
             android:layout_gravity="center"
             android:text="Belum punya akun? Daftar disini"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat"/>
     </LinearLayout>
 
 </RelativeLayout>

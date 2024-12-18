@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"/>
 
             <TextView
                 android:id="@+id/textViewDescription"
@@ -40,14 +41,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="#E6FFFFFF"
                 android:maxLines="2"
-                android:ellipsize="end"/>
+                android:ellipsize="end"
+                android:fontFamily="@font/montserrat"/>
 
             <TextView
                 android:id="@+id/textViewPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"/>
 
             <RatingBar
                 android:id="@+id/ratingBar"

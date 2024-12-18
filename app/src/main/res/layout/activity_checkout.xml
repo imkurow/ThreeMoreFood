@@ -16,7 +16,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="#20FFFFFF"
             app:title="Checkout"
-            app:titleTextColor="@color/white"/>
+            app:titleTextColor="@color/white"
+            app:titleTextAppearance="@style/ToolbarTitleStyle" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -47,9 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Alamat Pengiriman"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="16sp"/>
+                        android:textAppearance="@style/TextViewTitleStyle" />
 
                     <EditText
                         android:id="@+id/editTextAddress"
@@ -57,9 +56,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:hint="Masukkan alamat lengkap"
-                        android:textColorHint="#80FFFFFF"
-                        android:textColor="@color/white"
-                        android:minLines="2"/>
+                        android:textAppearance="@style/EditTextStyle"
+                        android:minLines="2" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -80,9 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Metode Pembayaran"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="16sp"/>
+                        android:textAppearance="@style/TextViewTitleStyle" />
 
                     <RadioGroup
                         android:id="@+id/radioGroupPayment"
@@ -95,14 +91,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Tunai"
-                            android:textColor="@color/white"/>
+                            android:textAppearance="@style/RadioButtonStyle" />
 
                         <RadioButton
                             android:id="@+id/radioButtonTransfer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Transfer Bank"
-                            android:textColor="@color/white"/>
+                            android:textAppearance="@style/RadioButtonStyle" />
                     </RadioGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -112,17 +108,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Total: Rp 0"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"/>
+                android:textAppearance="@style/TextViewTotalStyle"
+                android:layout_marginBottom="16dp" />
 
             <Button
                 android:id="@+id/buttonConfirmOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Konfirmasi Pesanan"
-                android:background="@drawable/gradient_button"/>
+                android:background="@drawable/gradient_button"
+                android:textAppearance="@style/ButtonTextStyle" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

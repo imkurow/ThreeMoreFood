@@ -14,12 +14,14 @@
         android:orientation="horizontal"
         android:padding="8dp">
 
+        <!-- ImageView for Menu Image -->
         <ImageView
             android:id="@+id/imageViewMenu"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"/>
 
+        <!-- LinearLayout for Menu Details -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -27,19 +29,28 @@
             android:layout_marginStart="8dp"
             android:orientation="vertical">
 
+            <!-- Item Name -->
             <TextView
                 android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Item Name"
                 android:textColor="@color/white"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"
+                android:textSize="16sp"/>
 
+            <!-- Item Price -->
             <TextView
                 android:id="@+id/textViewPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"/>
+                android:text="Rp 0"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat"
+                android:textSize="14sp"/>
 
+            <!-- Quantity Section -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +69,10 @@
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/white"/>
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/montserrat"
+                    android:textSize="14sp"/>
 
                 <ImageButton
                     android:id="@+id/buttonPlus"
@@ -69,6 +83,7 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Delete Button -->
         <ImageButton
             android:id="@+id/buttonDelete"
             android:layout_width="wrap_content"

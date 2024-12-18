@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#20FFFFFF"
-            app:titleTextColor="@color/white"/>
+            app:titleTextAppearance="@style/ToolbarTitleStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,7 +42,7 @@
                     android:id="@+id/imageViewMenu"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -70,9 +70,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textColor="@color/white"
-                            android:textSize="24sp"
-                            android:textStyle="bold"/>
+                            android:textAppearance="@style/TextViewTitleStyle" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/buttonFavorite"
@@ -81,7 +79,7 @@
                             app:icon="@drawable/ic_favorite_border"
                             app:iconTint="@color/white"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:padding="0dp"/>
+                            android:padding="0dp" />
 
                     </LinearLayout>
 
@@ -90,23 +88,21 @@
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
 
                     <TextView
                         android:id="@+id/textViewPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textAppearance="@style/TextViewPriceStyle" />
 
                     <TextView
                         android:id="@+id/textViewDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:textColor="#E6FFFFFF"/>
+                        android:textAppearance="@style/TextViewDescriptionStyle" />
 
                     <Button
                         android:id="@+id/buttonAddToCart"
@@ -115,7 +111,7 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/gradient_button"
                         android:text="Tambah ke Keranjang"
-                        android:textColor="@color/white"/>
+                        android:textAppearance="@style/ButtonTextStyle" />
 
                 </LinearLayout>
 
@@ -138,15 +134,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Beri Rating &amp; Review"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textAppearance="@style/TextViewTitleStyle" />
 
                     <RatingBar
                         android:id="@+id/userRatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
 
                     <EditText
                         android:id="@+id/reviewEditText"
@@ -155,11 +149,10 @@
                         android:layout_marginTop="8dp"
                         android:background="#40FFFFFF"
                         android:hint="Tulis review Anda..."
+                        android:gravity="top"
                         android:minHeight="100dp"
                         android:padding="8dp"
-                        android:gravity="top"
-                        android:textColor="@color/white"
-                        android:textColorHint="#80FFFFFF"/>
+                        android:textAppearance="@style/EditTextStyle" />
 
                     <Button
                         android:id="@+id/buttonSubmitReview"
@@ -168,22 +161,20 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/gradient_button"
                         android:text="Kirim Review"
-                        android:textColor="@color/white"/>
+                        android:textAppearance="@style/ButtonTextStyle" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="Semua Review"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textAppearance="@style/TextViewTitleStyle" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/reviewsRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
 
                 </LinearLayout>
 
@@ -198,6 +189,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

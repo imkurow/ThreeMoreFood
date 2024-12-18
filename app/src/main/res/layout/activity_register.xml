@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background">
 
-
+    <!-- ScrollView to contain the form content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,14 +18,15 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <!-- Progress Bar -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
-            <!-- Glass effect container -->
+            <!-- Glass effect container for input fields -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +34,7 @@
                 android:padding="20dp"
                 android:background="@drawable/glass_background">
 
-                <!-- Fullname -->
+                <!-- Full Name Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -50,10 +51,11 @@
                         android:hint="Nama Lengkap"
                         android:inputType="textPersonName"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"/>
+                        android:textColorHint="@color/white"
+                        android:fontFamily="@font/montserrat" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Email -->
+                <!-- Email Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,10 +72,11 @@
                         android:hint="Email"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"/>
+                        android:textColorHint="@color/white"
+                        android:fontFamily="@font/montserrat" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Phone -->
+                <!-- Phone Number Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -90,10 +93,11 @@
                         android:hint="Nomor Telepon"
                         android:inputType="phone"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"/>
+                        android:textColorHint="@color/white"
+                        android:fontFamily="@font/montserrat" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Address -->
+                <!-- Address Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,10 +115,11 @@
                         android:inputType="textMultiLine"
                         android:minLines="2"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"/>
+                        android:textColorHint="@color/white"
+                        android:fontFamily="@font/montserrat" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Gender -->
+                <!-- Gender Radio Buttons -->
                 <RadioGroup
                     android:id="@+id/radioGroupGender"
                     android:layout_width="match_parent"
@@ -128,17 +133,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:text="Laki-laki"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/montserrat"/>
 
                     <RadioButton
                         android:id="@+id/radioButtonFemale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Perempuan"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/montserrat"/>
                 </RadioGroup>
 
-                <!-- Password -->
+                <!-- Password Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -157,9 +164,11 @@
                         android:hint="Password"
                         android:inputType="textPassword"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"/>
+                        android:textColorHint="@color/white"
+                        android:fontFamily="@font/montserrat" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Register Button -->
                 <Button
                     android:id="@+id/buttonRegister"
                     android:layout_width="match_parent"
@@ -167,10 +176,12 @@
                     android:background="@drawable/gradient_button"
                     android:text="Daftar"
                     android:textColor="@color/white"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:fontFamily="@font/montserrat"/>
 
             </LinearLayout>
 
+            <!-- Login Text -->
             <TextView
                 android:id="@+id/textViewLogin"
                 android:layout_width="wrap_content"
@@ -179,10 +190,10 @@
                 android:layout_marginTop="16dp"
                 android:text="Sudah punya akun? Login disini"
                 android:textColor="@color/white"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"/>
 
         </LinearLayout>
     </ScrollView>
-
 
 </RelativeLayout>

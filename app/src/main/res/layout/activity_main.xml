@@ -36,7 +36,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Search Bar dengan glass effect -->
+                <!-- Search Bar with glass effect -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,11 +48,12 @@
                         android:id="@+id/searchView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:queryHint="Cari menu..."/>
+                        android:queryHint="Cari menu..."
+                        android:fontFamily="@font/montserrat"/>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Kategori Menu Container dengan glass effect -->
+                <!-- Kategori Menu Container with glass effect -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,7 +74,8 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="@color/white"
-                            android:layout_marginBottom="8dp"/>
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/montserrat"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewCategories"
@@ -82,7 +84,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Menu Populer Container dengan glass effect -->
+                <!-- Menu Populer Container with glass effect -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,7 +104,8 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="@color/white"
-                            android:layout_marginBottom="8dp"/>
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/montserrat"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewPopular"

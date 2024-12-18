@@ -15,7 +15,9 @@
             android:layout_height="?attr/actionBarSize"
             android:background="#20FFFFFF"
             app:title="Daftar Menu"
-            app:titleTextColor="@color/white"/>
+            app:titleTextColor="@color/white"
+            android:fontFamily="@font/montserrat"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,7 +32,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Search Bar dengan glass effect -->
+            <!-- Search Bar with glass effect -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,11 +44,12 @@
                     android:id="@+id/searchView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:queryHint="Cari menu..."/>
+                    android:queryHint="Cari menu..."
+                    android:fontFamily="@font/montserrat"/>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Menu Container dengan glass effect -->
+            <!-- Menu Container with glass effect -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
