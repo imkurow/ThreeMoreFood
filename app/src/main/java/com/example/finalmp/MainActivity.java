@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
             } else if (id == R.id.nav_logout) {
                 logout();
+            } else if (id == R.id.nav_favorites) {
+                startActivity(new Intent(MainActivity.this, FavoritesActivity.class));
             }
             drawerLayout.closeDrawers();
             return true;
