@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +27,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class DetailMenuActivity extends AppCompatActivity {
@@ -41,6 +44,12 @@ public class DetailMenuActivity extends AppCompatActivity {
     private RatingBar userRatingBar;
     private EditText reviewEditText;
     private RecyclerView reviewsRecyclerView;
+    private ReviewAdapter reviewAdapter;
+    private List<Review> reviews = new ArrayList<>();
+    private Button buttonSubmitReview;
+    private ValueEventListener menuValueEventListener;
+    private boolean isActivityDestroyed = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,41 +94,61 @@ public class DetailMenuActivity extends AppCompatActivity {
 
         buttonAddToCart.setOnClickListener(v -> addToCart());
         buttonFavorite.setOnClickListener(v -> toggleFavorite());
+        buttonSubmitReview = findViewById(R.id.buttonSubmitReview);
+        reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        reviewAdapter = new ReviewAdapter(reviews);
+        reviewsRecyclerView.setAdapter(reviewAdapter);
+
+        buttonSubmitReview.setOnClickListener(v -> submitReview());
+
+        // Load existing reviews
+        loadReviews();
+
     }
 
     private void loadMenuData() {
         showLoading(true);
-        menuRef.child(menuId).addValueEventListener(new ValueEventListener() {
+        menuValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentMenu = snapshot.getValue(Menu.class);
-                if (currentMenu != null) {
-                    updateUI(currentMenu);
+                if (!isActivityDestroyed) {  // Check if activity is still active
+                    currentMenu = snapshot.getValue(Menu.class);
+                    if (currentMenu != null) {
+                        updateUI(currentMenu);
+                    }
+                    showLoading(false);
                 }
-                showLoading(false);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                showLoading(false);
-                Toast.makeText(DetailMenuActivity.this,
-                        "Error: " + error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                if (!isActivityDestroyed) {  // Check if activity is still active
+                    showLoading(false);
+                    Toast.makeText(DetailMenuActivity.this,
+                            "Error: " + error.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
-        });
+        };
+        menuRef.child(menuId).addValueEventListener(menuValueEventListener);
     }
 
     private void updateUI(Menu menu) {
-        textViewName.setText(menu.getName());
-        textViewDescription.setText(menu.getDescription());
-        textViewPrice.setText(String.format(Locale.getDefault(),
-                "Rp %,d", (int) menu.getPrice()));
-        ratingBar.setRating(menu.getRating());
+        if (!isActivityDestroyed) {  // Check if activity is still active
+            textViewName.setText(menu.getName());
+            textViewDescription.setText(menu.getDescription());
+            textViewPrice.setText(String.format(Locale.getDefault(),
+                    "Rp %,d", (int) menu.getPrice()));
+            ratingBar.setRating(menu.getRating());
 
-        Glide.with(this)
-                .load(menu.getImageUrl())
-                .placeholder(R.drawable.placeholder_food)
-                .into(imageViewMenu);
+            // Check if activity is not destroyed before loading image
+            if (!isDestroyed() && !isFinishing()) {
+                Glide.with(this)
+                        .load(menu.getImageUrl())
+                        .placeholder(R.drawable.placeholder_food)
+                        .into(imageViewMenu);
+            }
+        }
     }
 
     private void addToCart() {
@@ -213,5 +242,135 @@ public class DetailMenuActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void loadReviews() {
+        DatabaseReference reviewsRef = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("reviews")
+                .child(menuId);
+
+        reviewsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                reviews.clear();
+                float totalRating = 0;
+                int ratingCount = 0;
+
+                for (DataSnapshot reviewSnapshot : snapshot.getChildren()) {
+                    Review review = reviewSnapshot.getValue(Review.class);
+                    if (review != null) {
+                        reviews.add(review);
+                        totalRating += review.getRating();
+                        ratingCount++;
+                    }
+                }
+
+                // Update menu's average rating
+                if (ratingCount > 0) {
+                    float averageRating = totalRating / ratingCount;
+                    updateMenuRating(averageRating);
+                }
+
+                reviewAdapter.updateData(reviews);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DetailMenuActivity.this,
+                        "Error loading reviews: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void submitReview() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "Silakan login terlebih dahulu",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        float rating = userRatingBar.getRating();
+        String comment = reviewEditText.getText().toString().trim();
+
+        if (rating == 0) {
+            Toast.makeText(this, "Berikan rating terlebih dahulu",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (comment.isEmpty()) {
+            Toast.makeText(this, "Tulis ulasan Anda", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Get user's name from Firebase
+        DatabaseReference userRef = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("users")
+                .child(currentUser.getUid());
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserData userData = snapshot.getValue(UserData.class);
+                String userName = userData != null ? userData.getFullname() : "Anonymous";
+
+                Review review = new Review(
+                        currentUser.getUid(),
+                        userName,
+                        menuId,
+                        rating,
+                        comment
+                );
+
+                DatabaseReference reviewRef = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("reviews")
+                        .child(menuId)
+                        .child(currentUser.getUid());
+
+                reviewRef.setValue(review)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(DetailMenuActivity.this,
+                                    "Ulasan berhasil ditambahkan",
+                                    Toast.LENGTH_SHORT).show();
+                            userRatingBar.setRating(0);
+                            reviewEditText.setText("");
+                        })
+                        .addOnFailureListener(e ->
+                                Toast.makeText(DetailMenuActivity.this,
+                                        "Gagal menambahkan ulasan: " + e.getMessage(),
+                                        Toast.LENGTH_SHORT).show()
+                        );
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DetailMenuActivity.this,
+                        "Error: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void updateMenuRating(float newRating) {
+        DatabaseReference menuRatingRef = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("menus")
+                .child(menuId)
+                .child("rating");
+
+        menuRatingRef.setValue(newRating);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isActivityDestroyed = true;
+        // Remove the ValueEventListener
+        if (menuValueEventListener != null && menuRef != null) {
+            menuRef.child(menuId).removeEventListener(menuValueEventListener);
+        }
     }
 }
