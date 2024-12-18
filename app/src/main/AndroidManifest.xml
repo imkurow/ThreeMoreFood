@@ -29,8 +29,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FavoritesActivity"
+            android:exported="false"/>
+        <activity
             android:name=".OrderHistoryActivity"
             android:exported="false"/>
+
         <activity
             android:name=".CheckoutActivity"
             android:exported="false"

@@ -17,7 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.android.material.button.MaterialButton;
+import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
+
 public class DetailMenuActivity extends AppCompatActivity {
     private ImageView imageViewMenu;
     private TextView textViewName, textViewDescription, textViewPrice;
@@ -40,7 +43,7 @@ public class DetailMenuActivity extends AppCompatActivity {
     private DatabaseReference menuRef;
     private String menuId;
     private Menu currentMenu;
-    private Button buttonFavorite;
+    private MaterialButton buttonFavorite;
     private RatingBar userRatingBar;
     private EditText reviewEditText;
     private RecyclerView reviewsRecyclerView;
@@ -49,6 +52,9 @@ public class DetailMenuActivity extends AppCompatActivity {
     private Button buttonSubmitReview;
     private ValueEventListener menuValueEventListener;
     private boolean isActivityDestroyed = false;
+    private boolean isFavorite = false;
+    private DatabaseReference favoritesRef;
+    private String currentUserId;
 
 
     @Override
@@ -63,9 +69,23 @@ public class DetailMenuActivity extends AppCompatActivity {
             return;
         }
 
+
         setupToolbar();
         initViews();
         loadMenuData();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            currentUserId = user.getUid();
+            favoritesRef = FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("favorites")
+                    .child(currentUserId);
+
+            // Check if menu is already favorited
+            checkFavoriteStatus();
+        }
+
     }
 
     private void setupToolbar() {
@@ -90,6 +110,7 @@ public class DetailMenuActivity extends AppCompatActivity {
         reviewEditText = findViewById(R.id.reviewEditText);
         reviewsRecyclerView = findViewById(R.id.reviewsRecyclerView);
 
+
         menuRef = FirebaseDatabase.getInstance().getReference().child("menus");
 
         buttonAddToCart.setOnClickListener(v -> addToCart());
@@ -100,7 +121,8 @@ public class DetailMenuActivity extends AppCompatActivity {
         reviewsRecyclerView.setAdapter(reviewAdapter);
 
         buttonSubmitReview.setOnClickListener(v -> submitReview());
-
+        buttonFavorite = findViewById(R.id.buttonFavorite);
+        buttonFavorite.setOnClickListener(v -> toggleFavorite());
         // Load existing reviews
         loadReviews();
 
@@ -196,53 +218,43 @@ public class DetailMenuActivity extends AppCompatActivity {
     }
 
     private void toggleFavorite() {
-        // Cek apakah user sudah login
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null) {
-            Toast.makeText(this, "Silakan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+        if (currentUserId == null) {
+            Toast.makeText(this, "Silakan login terlebih dahulu",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String userId = currentUser.getUid();
-        DatabaseReference favRef = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("favorites")
-                .child(userId)
-                .child(menuId);
+        if (currentMenu == null) return;
 
-        // Toggle favorite status
-        favRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Jika sudah favorite, hapus dari favorite
-                    favRef.removeValue()
-                            .addOnSuccessListener(aVoid -> {
-                                buttonFavorite.setSelected(false);
-                                Toast.makeText(DetailMenuActivity.this,
-                                        "Dihapus dari favorit",
-                                        Toast.LENGTH_SHORT).show();
-                            });
-                } else {
-                    // Jika belum favorite, tambahkan ke favorite
-                    favRef.setValue(true)
-                            .addOnSuccessListener(aVoid -> {
-                                buttonFavorite.setSelected(true);
-                                Toast.makeText(DetailMenuActivity.this,
-                                        "Ditambahkan ke favorit",
-                                        Toast.LENGTH_SHORT).show();
-                            });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DetailMenuActivity.this,
-                        "Error: " + error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (isFavorite) {
+            // Remove from favorites
+            favoritesRef.child(menuId).removeValue()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(DetailMenuActivity.this,
+                                "Dihapus dari favorit",
+                                Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(DetailMenuActivity.this,
+                                "Gagal menghapus dari favorit: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            // Add to favorites
+            favoritesRef.child(menuId).setValue(true)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(DetailMenuActivity.this,
+                                "Ditambahkan ke favorit",
+                                Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(DetailMenuActivity.this,
+                                "Gagal menambahkan ke favorit: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
+
 
     private void loadReviews() {
         DatabaseReference reviewsRef = FirebaseDatabase.getInstance()
@@ -373,4 +385,33 @@ public class DetailMenuActivity extends AppCompatActivity {
             menuRef.child(menuId).removeEventListener(menuValueEventListener);
         }
     }
+
+    private void checkFavoriteStatus() {
+        favoritesRef.child(menuId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                isFavorite = snapshot.exists();
+                updateFavoriteButton();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DetailMenuActivity.this,
+                        "Error: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateFavoriteButton() {
+        if (!isActivityDestroyed) {
+            buttonFavorite.setIcon(
+                    ContextCompat.getDrawable(this,
+                            isFavorite ? R.drawable.ic_favorite : R.drawable.ic_favorite_border
+                    )
+            );
+        }
+    }
+
+
 }

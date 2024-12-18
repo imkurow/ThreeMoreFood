@@ -14,7 +14,7 @@ public class Menu implements Parcelable {
     private String imageUrl;
     private float rating;
     private int orderCount;
-
+    private boolean isFavorite;
 
     public Menu() {
     }
@@ -117,6 +117,14 @@ public class Menu implements Parcelable {
 
     public void setOrderCount(int orderCount) {
         this.orderCount = orderCount;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     @Override
