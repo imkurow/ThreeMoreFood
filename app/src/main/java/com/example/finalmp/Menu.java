@@ -41,6 +41,7 @@ public class Menu implements Parcelable {
         imageUrl = in.readString();
         rating = in.readFloat();
         orderCount = in.readInt();
+        isFavorite = in.readByte() != 0;
     }
 
     public static final Creator<Menu> CREATOR = new Creator<Menu>() {
@@ -142,5 +143,6 @@ public class Menu implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeFloat(rating);
         dest.writeInt(orderCount);
+        dest.writeByte((byte) (isFavorite ? 1 : 0));
     }
 }

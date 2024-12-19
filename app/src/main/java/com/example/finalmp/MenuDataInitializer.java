@@ -1,5 +1,7 @@
 package com.example.finalmp;
 
+import android.content.Context;
+
 import com.example.finalmp.Menu;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -9,10 +11,13 @@ import java.util.List;
 
 public class MenuDataInitializer {
     private DatabaseReference menuRef;
+    private Context context;
 
-    public MenuDataInitializer() {
+    public MenuDataInitializer(Context context) {
+        this.context = context;
         menuRef = FirebaseDatabase.getInstance().getReference().child("menus");
     }
+
 
     public void initializeMenuData() {
         // Appetizer
@@ -23,7 +28,7 @@ public class MenuDataInitializer {
                 "Lumpia goreng isi sayuran segar dengan saus sambal",
                 "Appetizer",
                 15000,
-                "drawable/lumpia.jpeg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.lumpia
         ));
         appetizers.add(new Menu(
                 "app2",
@@ -31,7 +36,7 @@ public class MenuDataInitializer {
                 "Salad segar dengan dressing caesar dan crouton",
                 "Appetizer",
                 25000,
-                "drawable/caesarsalad.jpeg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.caesarsalad
         ));
         appetizers.add(new Menu(
                 "app3",
@@ -39,7 +44,7 @@ public class MenuDataInitializer {
                 "Risoles isi daging ayam dan mayonaise",
                 "Appetizer",
                 12000,
-                "drawable/risoles.jpeg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.risolmayo
         ));
 
         // Main Course
@@ -50,7 +55,7 @@ public class MenuDataInitializer {
                 "Nasi goreng dengan telur, ayam, dan sayuran",
                 "Main Course",
                 35000,
-                "drawable/nasigorengspecial.jpg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.menu_nasi_goreng
         ));
         mainCourses.add(new Menu(
                 "main2",
@@ -58,7 +63,7 @@ public class MenuDataInitializer {
                 "Mie goreng dengan udang, cumi, dan sayuran",
                 "Main Course",
                 40000,
-                "drawable/miegorengseafood.jpg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.menu_mie_goreng
         ));
         mainCourses.add(new Menu(
                 "main3",
@@ -66,7 +71,7 @@ public class MenuDataInitializer {
                 "Ayam bakar bumbu kecap dengan nasi dan lalapan",
                 "Main Course",
                 38000,
-                "drawable/ayambakar.jpg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.nasi_ayam_bakar
         ));
 
         // Dessert
@@ -77,7 +82,7 @@ public class MenuDataInitializer {
                 "Es krim vanilla dengan topping coklat",
                 "Dessert",
                 20000,
-                "drawable/icecreamvanilla.jpeg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.icecreamvanilla
         ));
         desserts.add(new Menu(
                 "des2",
@@ -85,7 +90,7 @@ public class MenuDataInitializer {
                 "Pudding coklat dengan saus vanilla",
                 "Dessert",
                 18000,
-                "drawable/puddingcoklat.jpeg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.puddingcoklat
         ));
         desserts.add(new Menu(
                 "des3",
@@ -93,7 +98,7 @@ public class MenuDataInitializer {
                 "Pisang goreng crispy dengan topping keju dan coklat",
                 "Dessert",
                 15000,
-                "drawable/pisanggoreng.jpeg"
+                "android.resource://" + getPackageName() + "/" + R.drawable.pisanggoreng
         ));
 
         // Upload to Firebase
@@ -104,6 +109,7 @@ public class MenuDataInitializer {
 
     private void uploadMenus(List<Menu> menus) {
         for (Menu menu : menus) {
+            // Use the menu's ID as the database key
             menuRef.child(menu.getId()).setValue(menu)
                     .addOnSuccessListener(aVoid -> {
                         System.out.println("Menu " + menu.getName() + " berhasil ditambahkan");
@@ -112,5 +118,9 @@ public class MenuDataInitializer {
                         System.out.println("Error menambahkan menu " + menu.getName() + ": " + e.getMessage());
                     });
         }
+    }
+
+    private String getPackageName() {
+        return context.getPackageName();
     }
 }
