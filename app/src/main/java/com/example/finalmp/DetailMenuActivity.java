@@ -133,10 +133,17 @@ public class DetailMenuActivity extends AppCompatActivity {
         menuValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!isActivityDestroyed) {  // Check if activity is still active
+                if (!isActivityDestroyed) {
                     currentMenu = snapshot.getValue(Menu.class);
                     if (currentMenu != null) {
+                        // Ensure the menu ID is set
+                        currentMenu.setId(snapshot.getKey());
                         updateUI(currentMenu);
+                    } else {
+                        Toast.makeText(DetailMenuActivity.this,
+                                "Menu tidak ditemukan",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     showLoading(false);
                 }
@@ -144,7 +151,7 @@ public class DetailMenuActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                if (!isActivityDestroyed) {  // Check if activity is still active
+                if (!isActivityDestroyed) {
                     showLoading(false);
                     Toast.makeText(DetailMenuActivity.this,
                             "Error: " + error.getMessage(),
