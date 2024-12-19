@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Inisialisasi menu data
-        MenuDataInitializer initializer = new MenuDataInitializer();
+        MenuDataInitializer initializer = new MenuDataInitializer(this);
         initializer.initializeMenuData();
 
         // Setup UI
