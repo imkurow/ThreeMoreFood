@@ -1,199 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background">
-
-    <!-- ScrollView to contain the form content -->
-    <ScrollView
+    android:background="@drawable/gradient_background"
+    android:fillViewport="true">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center">
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <!-- Register Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
-
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#FFFFFF"
+        android:layout_marginVertical="24dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
-
-            <!-- Progress Bar -->
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
-            <!-- Glass effect container for input fields -->
-            <LinearLayout
+            android:padding="20dp">
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp"
-                android:background="@drawable/glass_background">
-
-                <!-- Full Name Input -->
-                <com.google.android.material.textfield.TextInputLayout
+                android:text="Create Account"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/montserrat"/>
+            <!-- Full Name Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_person">
+                <EditText
+                    android:id="@+id/editTextFullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#20FFFFFF"
-                    app:boxStrokeColor="@color/white"
-                    app:hintTextColor="@color/white"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <EditText
-                        android:id="@+id/editTextFullname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Nama Lengkap"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:fontFamily="@font/montserrat" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Email Input -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#20FFFFFF"
-                    app:boxStrokeColor="@color/white"
-                    app:hintTextColor="@color/white"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <EditText
-                        android:id="@+id/editTextEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Email"
-                        android:inputType="textEmailAddress"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:fontFamily="@font/montserrat" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Phone Number Input -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#20FFFFFF"
-                    app:boxStrokeColor="@color/white"
-                    app:hintTextColor="@color/white"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <EditText
-                        android:id="@+id/editTextPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Nomor Telepon"
-                        android:inputType="phone"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:fontFamily="@font/montserrat" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Address Input -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#20FFFFFF"
-                    app:boxStrokeColor="@color/white"
-                    app:hintTextColor="@color/white"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <EditText
-                        android:id="@+id/editTextAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Alamat"
-                        android:inputType="textMultiLine"
-                        android:minLines="2"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:fontFamily="@font/montserrat" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Gender Radio Buttons -->
-                <RadioGroup
-                    android:id="@+id/radioGroupGender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonMale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="Laki-laki"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/montserrat"/>
-
-                    <RadioButton
-                        android:id="@+id/radioButtonFemale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Perempuan"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/montserrat"/>
-                </RadioGroup>
-
-                <!-- Password Input -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#20FFFFFF"
-                    app:boxStrokeColor="@color/white"
-                    app:hintTextColor="@color/white"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/white"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <EditText
-                        android:id="@+id/editTextPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Password"
-                        android:inputType="textPassword"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:fontFamily="@font/montserrat" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Register Button -->
-                <Button
-                    android:id="@+id/buttonRegister"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/gradient_button"
-                    android:text="Daftar"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
+                    android:hint="Nama Lengkap"
+                    android:inputType="textPersonName"
                     android:fontFamily="@font/montserrat"/>
-
-            </LinearLayout>
-
-            <!-- Login Text -->
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Email Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_email">
+                <EditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:fontFamily="@font/montserrat"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Phone Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_phone">
+                <EditText
+                    android:id="@+id/editTextPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nomor Telepon"
+                    android:inputType="phone"
+                    android:fontFamily="@font/montserrat"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Address Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_location">
+                <EditText
+                    android:id="@+id/editTextAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Alamat"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:fontFamily="@font/montserrat"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Gender Selection -->
             <TextView
-                android:id="@+id/textViewLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="Sudah punya akun? Login disini"
-                android:textColor="@color/white"
-                android:textStyle="bold"
+                android:text="Jenis Kelamin"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/montserrat"/>
-
+            <RadioGroup
+                android:id="@+id/radioGroupGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radioButtonMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Laki-laki"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/montserrat"/>
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radioButtonFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Perempuan"
+                    android:fontFamily="@font/montserrat"/>
+            </RadioGroup>
+            <!-- Password Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:passwordToggleEnabled="true"
+                app:startIconDrawable="@drawable/ic_lock">
+                <EditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:fontFamily="@font/montserrat"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Register Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Daftar"
+                android:textAllCaps="false"
+                android:padding="12dp"
+                android:textSize="16sp"
+                app:cornerRadius="8dp"
+                android:fontFamily="@font/montserrat"/>
         </LinearLayout>
-    </ScrollView>
-
-</RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <!-- Login Link -->
+    <TextView
+        android:id="@+id/textViewLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sudah punya akun? Login disini"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:fontFamily="@font/montserrat"/>
+</LinearLayout>
+</ScrollView>

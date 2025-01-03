@@ -1,117 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/gradient_background">
-
-    <LinearLayout
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:orientation="vertical"
+    android:padding="24dp">
+    <!-- App Logo -->
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/logo"
+        android:contentDescription="App Logo"/>
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+    <!-- Login Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="32dp"/>
-
-        <!-- Glass effect container -->
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#FFFFFF">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:background="@drawable/glass_background"
-            android:layout_marginBottom="24dp">
-
+            android:padding="20dp">
+            <!-- Email Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:boxBackgroundColor="#20FFFFFF"
-                app:boxStrokeColor="@color/white"
-                app:hintTextColor="@color/white"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+                app:boxStrokeColor="@color/purple_500"
+                app:hintTextColor="@color/purple_500"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_email">
                 <EditText
                     android:id="@+id/editTextEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
                     android:fontFamily="@font/montserrat"/>
             </com.google.android.material.textfield.TextInputLayout>
-
+            <!-- Password Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:boxBackgroundColor="#20FFFFFF"
-                app:boxStrokeColor="@color/white"
-                app:hintTextColor="@color/white"
+                android:layout_marginBottom="24dp"
+                app:boxStrokeColor="@color/purple_500"
+                app:hintTextColor="@color/purple_500"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/white"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_lock">
                 <EditText
                     android:id="@+id/editTextPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
                     android:inputType="textPassword"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
                     android:fontFamily="@font/montserrat"/>
             </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
+            <!-- Login Button -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/gradient_button"
                 android:text="Login"
-                android:textColor="@color/white"
-                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:padding="12dp"
+                android:textSize="16sp"
+                app:cornerRadius="8dp"
                 android:fontFamily="@font/montserrat"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Divider -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="ATAU"
-                android:textColor="@color/white"
-                android:fontFamily="@font/montserrat"/>
-
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#DDDDDD"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OR"
+                    android:padding="8dp"
+                    android:textColor="#757575"
+                    android:fontFamily="@font/montserrat"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#DDDDDD"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+            <!-- Google Sign In Button -->
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/buttonGoogleSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Belum punya akun? Daftar disini"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:fontFamily="@font/montserrat"/>
-    </LinearLayout>
-
-</RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <!-- Register Link -->
+    <TextView
+        android:id="@+id/textViewRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Belum punya akun? Daftar disini"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:fontFamily="@font/montserrat"/>
+</LinearLayout>
+    </RelativeLayout>

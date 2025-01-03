@@ -4,121 +4,250 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_backgroun_main">
-
-    <com.google.android.material.appbar.AppBarLayout
+    android:background="@color/background">
+    <!-- Toolbar -->
+<com.google.android.material.appbar.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    app:elevation="0dp">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent">
+        <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_home"
+            android:background="@drawable/circle_background"
+            android:padding="8dp"
+            app:tint="@color/text_primary"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checkout"
+            android:textSize="20sp"
+            android:textColor="@color/text_primary"
+            android:fontFamily="@font/montserrat"
+            android:layout_marginStart="16dp"/>
+    </androidx.appcompat.widget.Toolbar>
+</com.google.android.material.appbar.AppBarLayout>
+<androidx.core.widget.NestedScrollView
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <!-- Delivery Address -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alamat Pengiriman"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/montserrat"/>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#20FFFFFF"
-            app:title="Checkout"
-            app:titleTextColor="@color/white"
-            app:titleTextAppearance="@style/ToolbarTitleStyle" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_location"
+                app:tint="@color/accent_orange"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textAddressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rumah"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/montserrat"/>
+                <TextView
+                    android:id="@+id/textAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jl. Kebon Jeruk Raya No. 27"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="@font/montserrat"/>
+            </LinearLayout>
+            <ImageButton
+                android:id="@+id/buttonChangeAddress"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_edit"
+                android:background="@drawable/circle_background"
+                android:padding="8dp"
+                app:tint="@color/accent_orange"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <!-- Payment Method -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Metode Pembayaran"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/montserrat"/>
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp">
+        <RadioGroup
+            android:id="@+id/radioGroupPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+            <RadioButton
+                android:id="@+id/radioButtonCash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cash"
+                android:padding="12dp"
+                android:textColor="@color/text_primary"
+                android:fontFamily="@font/montserrat"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:background="?attr/selectableItemBackground"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_marginHorizontal="12dp"/>
+            <RadioButton
+                android:id="@+id/radioBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transfer Bank"
+                android:padding="12dp"
+                android:textColor="@color/text_primary"
+                android:fontFamily="@font/montserrat"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                android:background="?attr/selectableItemBackground"/>
+        </RadioGroup>
+    </com.google.android.material.card.MaterialCardView>
+    <!-- Order Summary -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ringkasan Pesanan"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/montserrat"/>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
-
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#20FFFFFF"
-                app:cardCornerRadius="10dp"
-                android:layout_marginBottom="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Alamat Pengiriman"
-                        android:textAppearance="@style/TextViewTitleStyle" />
-
-                    <EditText
-                        android:id="@+id/editTextAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:hint="Masukkan alamat lengkap"
-                        android:textAppearance="@style/EditTextStyle"
-                        android:minLines="2" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#20FFFFFF"
-                app:cardCornerRadius="10dp"
-                android:layout_marginBottom="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:text="Subtotal"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="@font/montserrat"/>
+                <TextView
+                    android:id="@+id/textSubtotal"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Metode Pembayaran"
-                        android:textAppearance="@style/TextViewTitleStyle" />
-
-                    <RadioGroup
-                        android:id="@+id/radioGroupPayment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp">
-
-                        <RadioButton
-                            android:id="@+id/radioButtonCash"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tunai"
-                            android:textAppearance="@style/RadioButtonStyle" />
-
-                        <RadioButton
-                            android:id="@+id/radioButtonTransfer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Transfer Bank"
-                            android:textAppearance="@style/RadioButtonStyle" />
-                    </RadioGroup>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:id="@+id/textViewTotal"
+                    android:text="Rp 50.000"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/montserrat"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Total: Rp 0"
-                android:textAppearance="@style/TextViewTotalStyle"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/buttonConfirmOrder"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ongkos Kirim"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="@font/montserrat"/>
+                <TextView
+                    android:id="@+id/textDeliveryFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 10.000"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/montserrat"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_marginVertical="8dp"/>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Konfirmasi Pesanan"
-                android:background="@drawable/gradient_button"
-                android:textAppearance="@style/ButtonTextStyle" />
-
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/montserrat"/>
+                <TextView
+                    android:id="@+id/textTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 60.000"
+                    android:textColor="@color/accent_orange"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/montserrat"/>
+            </LinearLayout>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <!-- Confirm Order Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonConfirmOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Konfirmasi Pesanan"
+        android:textAllCaps="false"
+        android:padding="12dp"
+        android:fontFamily="@font/montserrat"
+        app:cornerRadius="12dp"
+        android:backgroundTint="@color/accent_orange"/>
+</LinearLayout>
+</androidx.core.widget.NestedScrollView></androidx.coordinatorlayout.widget.CoordinatorLayout>

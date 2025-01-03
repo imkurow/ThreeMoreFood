@@ -11,7 +11,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        FirebaseAuth.getInstance(); // Inisialisasi FirebaseAuth
+        FirebaseAuth.getInstance();
     }
 
 }

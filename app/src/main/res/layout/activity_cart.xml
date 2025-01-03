@@ -1,83 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_backgroun_main">
-
-    <!-- AppBar Layout with Toolbar -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Keranjang"
-            app:titleTextAppearance="@style/CustomTextAppearance"
-            app:titleTextColor="@color/white" />
-
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!-- Scrollable Content -->
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- RecyclerView for Items -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewCart"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <!-- Total and Checkout Section -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="#20FFFFFF"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/textViewTotal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
-                        android:text="Total: Rp 0"
-                        android:textAppearance="@style/CustomTextAppearance"
-                        android:textSize="18sp" />
-
-                    <Button
-                        android:id="@+id/buttonCheckout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Checkout"
-                        android:fontFamily="@font/montserrat"
-                        style="@style/CustomButtonStyle" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    android:background="@color/background">
+    <!-- Header -->
+<TextView
+    android:id="@+id/headerTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Keranjang"
+    android:textSize="24sp"
+    android:textColor="@color/text_primary"
+    android:fontFamily="@font/montserrat"
+    android:layout_margin="16dp"/>
+    <!-- Cart Items -->
+<androidx.recyclerview.widget.RecyclerView
+android:id="@+id/recyclerViewCart"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_below="@id/headerTitle"
+android:layout_above="@id/checkoutLayout"
+android:padding="16dp"
+android:clipToPadding="false"/>
+    <!-- Checkout Section -->
+<LinearLayout
+android:id="@+id/checkoutLayout"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentBottom="true"
+android:background="@color/card_background"
+android:elevation="8dp"
+android:padding="16dp"
+android:orientation="vertical">
+<TextView
+    android:id="@+id/textViewTotal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Total: Rp 0"
+    android:textSize="18sp"
+    android:textColor="@color/text_primary"
+    android:fontFamily="@font/montserrat"/>
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/buttonCheckout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="Checkout"
+    android:textAllCaps="false"
+    android:padding="12dp"
+    android:fontFamily="@font/montserrat"
+    app:cornerRadius="8dp"/>
+</LinearLayout>
+</RelativeLayout>

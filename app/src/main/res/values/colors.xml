@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="primary">#FF5F6D</color>
-    <color name="primary_dark">#FF4F5D</color>
-    <color name="accent">#FFC371</color>
+    <color name="primary">#FF8C00</color>
+    <color name="primary_dark">#F57C00</color>
+    <color name="accent">#FFA500</color>
+    <color name="accent_orange">#FF8C00</color>
+    <color name="light_orange">#FFE0B2</color>
+
+    <color name="background">#F5F5F5</color>
+    <color name="card_background">#FFFFFF</color>
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
-    <color name="background_light">#FAFAFA</color>
-    <color name="input_background">#F5F5F5</color>
+    <color name="divider">#EEEEEE</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Status colors -->
+    <color name="success">#4CAF50</color>
+    <color name="error">#FF5252</color>
+    <color name="warning">#FFC107</color>
+
+    <color name="purple_500">#FF6200EE</color>
+    <color name="bottom_nav_background">#FFFFFF</color>
 </resources>

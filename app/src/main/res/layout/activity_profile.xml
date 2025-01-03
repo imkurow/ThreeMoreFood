@@ -1,174 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_backgroun_main">
-
-    <!-- Header Sederhana -->
-    <com.google.android.material.appbar.AppBarLayout
+    android:background="@color/background">
+    <!-- Header -->
+<TextView
+    android:id="@+id/headerTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Profil"
+    android:textSize="24sp"
+    android:textColor="@color/text_primary"
+    android:fontFamily="@font/montserrat"
+    android:layout_margin="16dp"/>
+<ScrollView
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_below="@id/headerTitle"
+android:clipToPadding="false">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <!-- Profile Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#20FFFFFF"
-            app:title="Profile"
-            app:titleTextColor="@color/white"
-            android:fontFamily="@font/montserrat"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!-- Content dengan Glass Effect -->
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <!-- Profil Card dengan Glass Effect -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:padding="16dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/default_profile"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/accent_orange"/>
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="#30FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:id="@+id/textViewName"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp"
-                    android:gravity="center">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imageViewProfile"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:src="@drawable/default_profile"
-                        app:civ_border_width="3dp"
-                        app:civ_border_color="#40FFFFFF"/>
-
-                    <TextView
-                        android:id="@+id/textViewProfileName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/montserrat"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonChangePhoto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="12dp"
-                        android:text="Ubah Foto"
-                        android:textColor="@color/white"
-                        android:alpha="0.9"
-                        app:strokeWidth="3dp"
-                        app:cornerRadius="20dp"
-                        android:background="@drawable/gradient_button"
-                        android:fontFamily="@font/montserrat"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Form Card dengan Glass Effect -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#30FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:text="Christie"
+                    android:textSize="20sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="@font/montserrat"/>
+                <TextView
+                    android:id="@+id/textViewEmail"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <!-- Input Fields dengan style minimalis -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:hint="Nama Lengkap"
-                        app:boxBackgroundColor="#20FFFFFF"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="@color/white"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/montserrat"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:hint="Nomor Telepon"
-                        app:boxBackgroundColor="#20FFFFFF"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="@color/white"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextPhone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:inputType="phone"
-                            android:fontFamily="@font/montserrat"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Alamat"
-                        app:boxBackgroundColor="#20FFFFFF"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="@color/white"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextAddress"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:inputType="textMultiLine"
-                            android:minLines="2"
-                            android:fontFamily="@font/montserrat"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonSave"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="24dp"
-                        android:text="SIMPAN"
-                        android:textStyle="bold"
-                        app:cornerRadius="28dp"
-                        android:background="@drawable/gradient_button"
-                        android:fontFamily="@font/montserrat"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    android:text="christie@email.com"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="@font/montserrat"/>
+            </LinearLayout>
+            <ImageButton
+                android:id="@+id/editProfileButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_background"
+                android:src="@drawable/ic_edit"
+                android:padding="8dp"
+                android:tint="@color/accent_orange"/>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.cardview.widget.CardView>
+    <!-- Account Settings Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Akun Saya"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginBottom="12dp"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        android:layout_marginBottom="24dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/buttonActivities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileMenuItemContainer">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_activities"
+                    app:tint="@color/accent_orange"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Aktivitas saya"
+                    style="@style/ProfileMenuItemText"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="@color/text_secondary"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_marginHorizontal="16dp"/>
+            <LinearLayout
+                android:id="@+id/buttonPayments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileMenuItemContainer">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_payment"
+                    app:tint="@color/accent_orange"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Metode Pembayaran"
+                    style="@style/ProfileMenuItemText"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="@color/text_secondary"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <!-- Preferences Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preferensi"
+        android:textSize="16sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginBottom="12dp"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        android:layout_marginBottom="32dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/buttonLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileMenuItemContainer">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_language"
+                    app:tint="@color/accent_orange"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ubah Bahasa"
+                    style="@style/ProfileMenuItemText"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="@color/text_secondary"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_marginHorizontal="16dp"/>
+            <LinearLayout
+                android:id="@+id/buttonNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProfileMenuItemContainer">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_notification"
+                    app:tint="@color/accent_orange"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Notifikasi"
+                    style="@style/ProfileMenuItemText"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="@color/text_secondary"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <!-- Logout Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Keluar"
+
+        android:backgroundTint="#FF5252"
+        android:padding="12dp"
+        android:fontFamily="@font/montserrat"
+        app:cornerRadius="12dp"/>
+</LinearLayout>
+</ScrollView>
+</RelativeLayout>
